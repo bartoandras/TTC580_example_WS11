@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://www.plcopen.org/xml/tc6_0200">
-  <fileHeader companyName="" productName="CODESYS" productVersion="CODESYS V3.5 SP16 Patch 6" creationDateTime="2025-01-31T08:51:34.1198928" />
-  <contentHeader name="WS11" version="1.2.0" modificationDateTime="2025-01-31T08:51:09.87209" organization="TTControl S.r.l.">
+  <fileHeader companyName="" productName="CODESYS" productVersion="CODESYS V3.5 SP16 Patch 6" creationDateTime="2025-01-31T08:55:32.3864517" />
+  <contentHeader name="WS11" version="1.2.0" modificationDateTime="2025-01-31T08:55:13.018073" organization="TTControl S.r.l.">
     <coordinateInfo>
       <fbd>
         <scaling x="1" y="1" />
@@ -614,18 +614,7 @@ fbCanTxId120(	iEnable				:= TRUE, 											// Enables sending of messages
 				oTransmitterId		=&gt; ,                                				
 				oTooManyTransmitters=&gt; ,                                				
 				oMsgSent			=&gt; );                  
-
-fbCanTxId130(	iEnable				:= TRUE, 											// Enables sending of messages
-				iCAN				:= ADR(GVL.gCan1),									// Structure for sending / receiving CAN messages
-				iForceSend			:= FALSE,                           				// Force sending sends message immediately
-				iTransmitRate		:= T#100MS, 										// Cyclic transmission every 100ms
-				iCanId				:= 16#120,											// CAN Id for message to send
-				iCanIdExtended		:= FALSE, 											// Standard CAN Frame
-				iByteCount			:= 8,												// Number of bytes to send
-				iData				:= TxData_ID_120_echo, 									// Data frame
-				oTransmitterId		=&gt; ,                                				
-				oTooManyTransmitters=&gt; ,                                				
-				oMsgSent			=&gt; );                          				        				
+                         				        				
 				                                                        				
 fbCanRxId200(	iCAN				:= ADR(GVL.gCan1),  								// Structure for sending / receiving CAN messages
 				iCanId				:= 16#200,											// CAN Id of receiving message 
@@ -641,8 +630,7 @@ fbCanRxId200(	iCAN				:= ADR(GVL.gCan1),  								// Structure for sending / rec
 IF fbCanRxId200.oNewData THEN															// If new CAN data is available
 	GVL.gLedRed.DutyCycle := cl_make_word(	byte0 := fbCanRxId200.oData[0], 			// Make word using two over CAN received bytes and set it as LedRed setpoint*)
 											byte1 := fbCanRxId200.oData[1]);					
-	TxData_ID_120_echo := fbCanRxId200.oData;
-	TxData_ID_130_echo := fbCanRxId200.oData;
+	
 	
 ELSIF fbCanRxId200.oCanTimeout THEN														// If timeout flag is enabled switch off LedRed
 	GVL.gLedRed.DutyCycle := 0;
